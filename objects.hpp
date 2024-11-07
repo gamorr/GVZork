@@ -9,15 +9,21 @@
 
 class Location {
     public:
+        // Constructor
         Location(const std::string& name, const std::string& description);
-        std::map<string, Location> get_locations();
+        // Setters
         void add_location(const std::string& direction, const Location& location);
         void add_npc(NPC npc);
-        std::vector<NPC> get_npcs();
         void add_item(Item item);
-        std::vector<Item> get_items();
         void set_visited();
+        // Getters
+        std::map<string, Location> get_locations();
+        std::vector<NPC> get_npcs();
+        std::vector<Item> get_items();
         bool get_visited();
+
+        // Overloading the stream operator to depict all info contained in a location
+        // in an easy to read manner
 
         friend std::ostream& operator<<(std::ostream& os, const Locatoin& other) {
             os << other.name << " - " << other. description << std::endl;
