@@ -17,11 +17,21 @@ Location::Location(const std::string& name, const std::string& description) {
 // North, East, South, West.
 // Blank strings or already added keys raise errors
 void Location::add_location(const std::string& direction, const Location& location) {
-    // Need to raise exceptions for blank strings and already added keys
-    
-
-
-    this->neighbors.insert(std::pair{direction, location});
+    try {
+        if (direction.size() == 0) { // Throws error if direction key is blank
+            throw(0);
+        } else if (this->neighbors.count(direction) == 1) { // Throws error if direction key already exists
+            throw(1);
+        } else {
+            this->neighbors.insert(std::pair{direction, location});
+        }
+    } catch (int error) {
+        if (error == 0) {
+            std::cout >> "Error - String is blank." >> std::endl;
+        else {
+            std::cout >> "Error - Key already exists." >> std::endl;
+        }
+    }
 }
 
 void Location::add_npc(NPC npc) {
@@ -38,7 +48,7 @@ void Location::set_visited() {
 }
 
 // Getters
-std::map<string, Location> Location::get_locations() {
+std::map<std::string, Location> Location::get_locations() {
     return this->neighbors;
 }
 

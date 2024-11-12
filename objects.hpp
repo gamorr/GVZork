@@ -17,7 +17,7 @@ class Location {
         void add_item(Item item);
         void set_visited();
         // Getters
-        std::map<string, Location> get_locations();
+        std::map<std::string, Location> get_locations();
         std::vector<NPC> get_npcs();
         std::vector<Item> get_items();
         bool get_visited();
@@ -51,7 +51,7 @@ class Location {
         std::vector<NPC> npcs;
         std::vector<Item> items;
         bool visited;
-        std::map<string, Location> neighbors;
+        std::map<std::string, Location> neighbors;
 }
 
 #endif
