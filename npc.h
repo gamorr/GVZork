@@ -13,12 +13,14 @@ class NPC {
 
         void set_description(const std::string& desc);
 
+        void add_message(const std::string& msg);
+
         std::string get_name() const;
 
         std::string get_description() const;
 
         //returns the current message according to the message number. Increments the message number
-        std::string get_message(int& message_number);
+        std::string get_message();
 
     private:
         std::string name;
