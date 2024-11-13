@@ -63,3 +63,12 @@ std::vector<Items> Location::get_items() {
 bool Location::get_visited() {
     return this->visited;
 }
+
+int main(int argc, char** argv) {
+    Location House = Location::Location("A House", "A very standard house that you could see anywhere in america");
+    Location Shop = Location::Location("A Shop", "A very standard shop that looks like the sign says MEEJER");
+
+    House.add_location("W", Shop);
+    House.add_location("E", Shop);
+    House.add_location("W", Shop);
+}

@@ -25,7 +25,7 @@ class Location {
         // Overloading the stream operator to depict all info contained in a location
         // in an easy to read manner
 
-        friend std::ostream& operator<<(std::ostream& os, const Locatoin& other) {
+        friend std::ostream& operator<<(std::ostream& os, const Location& other) {
             os << other.name << " - " << other. description << std::endl;
             os << std::endl << "You see the following NPCs:" << std::endl;
             for(auto it = other.npcs.begin(); it!=other.npcs.end(); ++it) {
