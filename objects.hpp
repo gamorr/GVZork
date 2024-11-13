@@ -24,17 +24,23 @@ class Item {
 
 class Location {
     public:
+        // Constructor
         Location(const std::string& name, const std::string& description);
-        std::map<string, Location> get_locations();
+        // Setters
         void add_location(const std::string& direction, const Location& location);
         void add_npc(NPC npc);
-        std::vector<NPC> get_npcs();
         void add_item(Item item);
-        std::vector<Item> get_items();
         void set_visited();
+        // Getters
+        std::map<std::string, Location> get_locations();
+        std::vector<NPC> get_npcs();
+        std::vector<Item> get_items();
         bool get_visited();
 
-        friend std::ostream& operator<<(std::ostream& os, const Locatoin& other) {
+        // Overloading the stream operator to depict all info contained in a location
+        // in an easy to read manner
+
+        friend std::ostream& operator<<(std::ostream& os, const Location& other) {
             os << other.name << " - " << other. description << std::endl;
             os << std::endl << "You see the following NPCs:" << std::endl;
             for(auto it = other.npcs.begin(); it!=other.npcs.end(); ++it) {
@@ -60,7 +66,8 @@ class Location {
         std::vector<NPC> npcs;
         std::vector<Item> items;
         bool visited;
-        std::map<string, Location> neighbors;
+        std::map<std::string, Location> neighbors;
+}
 
 
 
