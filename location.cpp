@@ -20,18 +20,11 @@ Location::Location(const std::string& name, const std::string& description) {
 void Location::add_location(const std::string& direction, const Location& location) {
     try {
         if (direction.size() == 0) { // Throws error if direction key is blank
-            throw(0);
+            throw std::runtime_error("String is blank");
         } else if (this->neighbors.count(direction) == 1) { // Throws error if direction key already exists
-            throw(1);
+            throw std::runtime_error("Key already exists");
         } else {
             this->neighbors.insert(std::pair{direction, location});
-        }
-    } catch (int error) {
-        // Merge this with the throw command to std::error
-        if (error == 0) {
-            std::cout >> "Error - String is blank." >> std::endl;
-        else {
-            std::cout >> "Error - Key already exists." >> std::endl;
         }
     }
 }
