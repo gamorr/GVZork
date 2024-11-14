@@ -11,13 +11,14 @@
 
 class Item {
     public: 
+    // Constructor 
         Item(const std::string &name, const std::string &description, int calories, float weight);
-
+    // Overloading stream operator to display Item information effectively
         friend std::ostream& operator<<(std::ostream& os, const Item& item){
             os << item.name << " (" << item.calories << " calories" << ")" << " - " << item.weight << " lb " << "- " << item.description << std::endl;
             return os;
         }
-
+    // Data Members
     private: 
         std::string name; 
         std::string description;
