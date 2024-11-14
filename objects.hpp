@@ -67,7 +67,7 @@ class Location {
         std::vector<Item> items;
         bool visited;
         std::map<std::string, Location> neighbors;
-}
+};
 
 
 

@@ -28,7 +28,7 @@ void Location::add_location(const std::string& direction, const Location& locati
     } catch (int error) {
         if (error == 0) {
             std::cout >> "Error - String is blank." >> std::endl;
-        else {
+        } else {
             std::cout >> "Error - Key already exists." >> std::endl;
         }
     }
