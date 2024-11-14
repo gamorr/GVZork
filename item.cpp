@@ -40,8 +40,5 @@ int main() {
     int calories; 
     float weight;
 
-    std::cout << "Enter a name: "; 
-    std::cin >> name;
-
     return 0;
 }
