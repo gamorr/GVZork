@@ -28,13 +28,13 @@ class Location {
         Location(const std::string& name, const std::string& description);
         // Setters
         void add_location(const std::string& direction, const Location& location);
-        void add_npc(NPC npc);
-        void add_item(Item item);
+        void add_npc(const NPC& npc);
+        void add_item(const Item& item);
         void set_visited();
         // Getters
-        std::map<std::string, Location> get_locations();
-        std::vector<NPC> get_npcs();
-        std::vector<Item> get_items();
+        std::map<std::string, std::reference_wrapper<Location> > get_locations();
+        std::vector<reference_wrapper<NPC> > get_npcs();
+        std::vector<reference_wrapper<Item> > get_items();
         bool get_visited();
 
         // Overloading the stream operator to depict all info contained in a location
@@ -63,10 +63,10 @@ class Location {
     private:
         std::string name;
         std::string description;
-        std::vector<NPC> npcs;
-        std::vector<Item> items;
+        std::vector<std::reference_wrapper<NPC> > npcs;
+        std::vector<std::reference_wrapper<Item> > items;
         bool visited;
-        std::map<std::string, Location> neighbors;
+        std::map<std::string, std::reference_wrapper<Location> > neighbors;
 }
 
 

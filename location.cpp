@@ -1,6 +1,7 @@
 #include "objects.hpp"
 #include <string>
 #include <vector>
+#include <functional>
 #include <map>
 #include <iostream>
 
@@ -26,6 +27,7 @@ void Location::add_location(const std::string& direction, const Location& locati
             this->neighbors.insert(std::pair{direction, location});
         }
     } catch (int error) {
+        // Merge this with the throw command to std::error
         if (error == 0) {
             std::cout >> "Error - String is blank." >> std::endl;
         else {
@@ -34,11 +36,11 @@ void Location::add_location(const std::string& direction, const Location& locati
     }
 }
 
-void Location::add_npc(NPC npc) {
+void Location::add_npc(const NPC& npc) {
     this->npcs.push_back(npc);
 }
 
-void Location::add_item(Item item) {
+void Location::add_item(const Item& item) {
     this->items.push_back(item);
 }
 
@@ -48,15 +50,15 @@ void Location::set_visited() {
 }
 
 // Getters
-std::map<std::string, Location> Location::get_locations() {
+std::map<std::string, std::reference_wrapper<Location> > Location::get_locations() {
     return this->neighbors;
 }
 
-std::vector<NPC> Location::get_npcs() {
+std::vector<std::reference_wrapper<NPC> > Location::get_npcs() {
     return this->npcs;
 }
 
-std::vector<Items> Location::get_items() {
+std::vector<std::reference_wrapper<Item> > Location::get_items() {
     return this->items;
 }
 
@@ -64,6 +66,7 @@ bool Location::get_visited() {
     return this->visited;
 }
 
+// TESTING CODE
 int main(int argc, char** argv) {
     Location House = Location::Location("A House", "A very standard house that you could see anywhere in america");
     Location Shop = Location::Location("A Shop", "A very standard shop that looks like the sign says MEEJER");
