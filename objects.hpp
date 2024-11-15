@@ -11,15 +11,19 @@
 
 class Item {
     public: 
-        std::string name;
-        std::string description;
-        int calories;
-        float weight;
+    // Constructor 
         Item(const std::string &name, const std::string &description, int calories, float weight);
+    // Overloading stream operator to display Item information effectively
         friend std::ostream& operator<<(std::ostream& os, const Item& item){
             os << item.name << " (" << item.calories << " calories" << ")" << " - " << item.weight << " lb " << "- " << item.description << std::endl;
             return os;
         }
+    // Data Members
+    private: 
+        std::string name; 
+        std::string description;
+        int calories;
+        float weight;
 };
 
 class Location {
@@ -60,7 +64,7 @@ class Location {
             }
         }
 
-    private:
+    private: 
         std::string name;
         std::string description;
         std::vector<std::reference_wrapper<NPC> > npcs;
@@ -68,6 +72,7 @@ class Location {
         bool visited;
         std::map<std::string, std::reference_wrapper<Location> > neighbors;
 }
+
 
 
 
