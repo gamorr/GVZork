@@ -57,8 +57,8 @@ class Location {
         void set_visited();
         // Getters
         std::map<std::string, std::reference_wrapper<Location> > get_locations();
-        std::vector<reference_wrapper<NPC> > get_npcs();
-        std::vector<reference_wrapper<Item> > get_items();
+        std::vector<std::reference_wrapper<NPC> > get_npcs();
+        std::vector<std::reference_wrapper<Item> > get_items();
         bool get_visited();
 
         // Overloading the stream operator to depict all info contained in a location
