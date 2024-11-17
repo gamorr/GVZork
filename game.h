@@ -12,12 +12,12 @@
 class Game {
     public:
         Game();
+        
         void create_world();
-        std::map<std::string, std::function<void(std::vector<std::string>)>> setup_commands(); // map of command, function name
-        Location random_location();
+        std::map<std::string, std::function<void(std::vector<std::string>)>> setup_commands(); // map of command, function name        
         void play();
         void show_help();
-        void talk(NPC target); // either pass in the npc instance or the name of the target, whatever ends up being easier.
+        void talk(std::vector<std::string> target); 
         void meet(std::vector<std::string> target); 
         void take(std::vector<std::string> target);
         void give(std::vector<std::string> target);
@@ -30,7 +30,10 @@ class Game {
         std::map<std::string, std::function<void(*)(std::vector<std::string>)>> commands;
         std::vector<Item> items;
         std::vector<Location> locations;
+        int current_calories;
         int needed_calories;
+        float current_weight;
+        float max_weight;
 };
 
 

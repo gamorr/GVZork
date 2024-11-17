@@ -1,7 +1,8 @@
 #include "objects.hpp"
+#include "item.h"
+#include "npc.h"
 #include <string>
 #include <vector>
-#include <functional>
 #include <map>
 #include <iostream>
 
@@ -20,20 +21,27 @@ Location::Location(const std::string& name, const std::string& description) {
 void Location::add_location(const std::string& direction, const Location& location) {
     try {
         if (direction.size() == 0) { // Throws error if direction key is blank
-            throw std::runtime_error("String is blank");
+            throw(0);
         } else if (this->neighbors.count(direction) == 1) { // Throws error if direction key already exists
-            throw std::runtime_error("Key already exists");
+            throw(1);
         } else {
-            this->neighbors.insert(std::pair{direction, location});
+            // this->neighbors[direction] = location;
+        }
+    } catch (int error) {
+        if (error == 0) {
+            std::cout << "Error - String is blank." << std::endl;
+        }
+        else {
+            std::cout << "Error - Key already exists." << std::endl;
         }
     }
 }
 
-void Location::add_npc(const NPC& npc) {
+void Location::add_npc(NPC npc) {
     this->npcs.push_back(npc);
 }
 
-void Location::add_item(const Item& item) {
+void Location::add_item(Item item) {
     this->items.push_back(item);
 }
 
@@ -43,28 +51,20 @@ void Location::set_visited() {
 }
 
 // Getters
-std::map<std::string, std::reference_wrapper<Location> > Location::get_locations() {
+std::map<std::string, Location> Location::get_locations() {
     return this->neighbors;
 }
 
-std::vector<std::reference_wrapper<NPC> > Location::get_npcs() {
+std::vector<NPC> Location::get_npcs() {
     return this->npcs;
 }
 
-std::vector<std::reference_wrapper<Item> > Location::get_items() {
+std::vector<Item> Location::get_items() {
     return this->items;
 }
 
-bool Location::get_visited() {
+bool Location::get_visited() const{
     return this->visited;
+
 }
 
-// TESTING CODE
-int main(int argc, char** argv) {
-    Location House = Location::Location("A House", "A very standard house that you could see anywhere in america");
-    Location Shop = Location::Location("A Shop", "A very standard shop that looks like the sign says MEEJER");
-
-    House.add_location("W", Shop);
-    House.add_location("E", Shop);
-    House.add_location("W", Shop);
-}
