@@ -24,22 +24,23 @@ Game::Game() {
     this->max_weight = 30;
     this->can_teleport = true;
 
-    this->current_location = locations[0]; // player starts in the ravines
+    this->current_location = this->random_location(); // player starts in random location
     this->current_location.set_visited(); // Makes the start location visited
     play();
     
 }
 
+// Play the game, automatically sets up commands upon playing and prints an introduction
+// Then waits for user input 
 void Game::play(){
     std::map<std::string, std::function<void(std::vector<std::string>)>> commands = setup_commands();
     // Introduction 
-    std::cout << "Hello Traveler, and welcome to the enchanting world of Grand Valley State University!\nQuite an exciting and charming place.\nHowever, theres this elf that needs some food and if he does not get it he will destroy the place. Can you help us out?" << std::endl;
+    std::cout << "Hello Traveler, and welcome to the enchanting world of Grand Valley State University!\nQuite an exciting and charming place.\nHowever, theres this elf in the ravines that needs some food and if he does not get it he will destroy the place. \nCan you help us out?" << std::endl;
+    std::cout << "You are currently in " << current_location;
     while(needed_calories > current_calories){
-        // DEVNOTE - we might want to get rid of printing the location every loop, since look is a command
-        std::cout << "You are currently in " << current_location;
         std::cout << "You currently have " << current_calories << "calories out of " << needed_calories << "." << std::endl << std::endl;
 
-        std::cout << "What would you like to do?\n" << std::endl;
+        std::cout << "What would you like to do? (Type help for a list of commands)\n" << std::endl;
 
         std::string user_response;
         std::cin >> user_response;
@@ -62,7 +63,7 @@ void Game::play(){
     }
 }
 
-
+// Create the game world including all the items, locations, npcs and places them in the world
 void Game::create_world() {
     // Create Items  // DEVNOTE - we need 5 more items, probably more that don't have a calorie count
     items.push_back(Item("Banana", "Lots of potassium", 40, 3.5f));
@@ -108,6 +109,7 @@ void Game::create_world() {
 
 
     // Add NPCs and Items to Locations
+    // DEVNOTE - probably should randomly assign things to locations using the random_location function other than the elf
     ravines.add_npc(elf);
     calder.add_npc(joel);
     zumberge.add_npc(samantha);
@@ -151,6 +153,7 @@ void Game::create_world() {
     locations.push_back(calder);
 }
 
+// Sets up all commands
 std::map<std::string, std::function<void(std::vector<std::string>)>> Game::setup_commands() {
     std::map<std::string, std::function<void(std::vector<std::string>)>> command_map;
     command_map["help"] = [this](std::vector<std::string> args) { show_help(); };
@@ -166,6 +169,18 @@ std::map<std::string, std::function<void(std::vector<std::string>)>> Game::setup
     return command_map;
 }
 
+// Selects a random location from the locations in the game
+Location Game::random_location() {
+    std::random_device rd; // Seed generator
+    std::mt19937 gen(rd()); // Mersenne Twister engine
+    std::uniform_int_distribution<> dist(0, locations.size() - 1);
+
+    // return random location
+    int randomIndex = dist(gen);
+    return locations[randomIndex];
+}
+
+// Displays all commands, how to use them and what they do
 void Game::show_help() {
     std::cout << "Available commands:\n";
     std::cout << "  talk <NPC> - Talk to an NPC in the current location.\n";
@@ -176,8 +191,11 @@ void Game::show_help() {
     std::cout << "  items - Show items in your inventory.\n";
     std::cout << "  look - Get information on your current location.\n";
     std::cout << "  quit - Exit the game.\n";
+    std::cout << "  teleport - Teleport to a location.\n";
+    std::cout << "  dance - Start dancing on the spot\n";
 }
 
+// Talks to the specified NPC. If none is specified, a different message will send
 void Game::talk(std::vector<std::string> args) {
     if (args.empty()) {
         std::cout << "You need to specify an NPC to talk to.\n";
@@ -202,6 +220,7 @@ void Game::talk(std::vector<std::string> args) {
     }
 }
 
+// See all NPCs and who they are in the current location
 void Game::meet(std::vector<std::string> args) {
     std::vector<std::reference_wrapper<NPC> > npcs = current_location.get_npcs();
 
@@ -217,6 +236,7 @@ void Game::meet(std::vector<std::string> args) {
     }
 }
 
+// Grab an item from the current location if not too heavy
 void Game::take(std::vector<std::string> target) {
     if (target.empty()) {
         std::cout << "You need to specify an item to take.\n";
@@ -256,7 +276,7 @@ void Game::take(std::vector<std::string> target) {
     std::cout << "You picked up '" << item_name << "'.\n";
 }
 
-
+// Uses an item from the player's inventory to try to give it to another 
 void Game::give(std::vector<std::string> target) {
     if (target.empty()) {
         std::cout << "You need to specify an item to give.\n";
@@ -279,14 +299,7 @@ void Game::give(std::vector<std::string> target) {
             // if the item is not edible, the player will be sent to a random location
             if (item_to_give->get_calories() == 0){
                 std::cout << "Blah! This is not edible! I banish thee!" << std::endl;
-                // Initialize random number generator
-                std::random_device rd; // Seed generator
-                std::mt19937 gen(rd()); // Mersenne Twister engine
-                std::uniform_int_distribution<> dist(0, locations.size() - 1);
-
-                // set the current location to a random one
-                int randomIndex = dist(gen);
-                current_location = locations[randomIndex];
+                current_location = this->random_location();
             }
 
             break;
@@ -300,7 +313,7 @@ void Game::give(std::vector<std::string> target) {
 
 }
 
-
+// Moves the player to the specified direction then sets the new location to visited
 void Game::go(std::vector<std::string> target) {
     if (target.empty()) {
         std::cout << "You need to specify a direction to go.\n";
@@ -321,7 +334,7 @@ void Game::go(std::vector<std::string> target) {
     }
 }
 
-
+// Shows the items that the character is holding
 void Game::show_items(std::vector<std::string> target) {
     if (!target.empty()) { //check if target has arguments or not
         std::cout << "no args required to view inventory!\n";
@@ -334,10 +347,12 @@ void Game::show_items(std::vector<std::string> target) {
     }
 }
 
+// Gives info about the current location the player is in
 void Game::look(std::vector<std::string> target) {
     std::cout << "You are currently in " << current_location;
 }
 
+// Quits the game when chosen
 void Game::quit(std::vector<std::string> target) {
     std::cout << "You decided that someone else could save GV. Later, the Elf destroyed GV.\n\nYou Lose." << std::endl;
     std::exit(0);
@@ -365,5 +380,19 @@ void Game::teleport(std::vector<std::string> target) {
     }
     else {
         std::cout << "You cannot teleport anymore!" << std::endl;
+    }
+}
+
+// Have the character start doing a random dance from a list of 8 dances
+// If there are NPC's around, will output a different message
+void Game::dance(std::vector<std::string> target) {
+    // Initialize values
+    std::vector<std::string> Dances = {"Griddy", "Tap Dance", "Moonwalk", "Floss", "Dab", "Nae Nae", "Wobble", "Dougie"};
+    std::srand(std::time(nullptr));
+    int dance = std::rand() / Dances.size();
+
+    std::cout << "You start hitting the " << Dances[dance] << "." << std::endl;
+    if (!current_location.get_npcs().empty()) {
+        std::cout << "The people in the area approve." << std::endl;
     }
 }
