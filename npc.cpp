@@ -12,11 +12,17 @@ NPC::NPC(const std::string& name, const std::string& description) {
 }
 // Sets a new name for the NPC.
 void NPC::set_name(const std::string& n) {
+    if (n.empty()){
+        throw std::runtime_error("Name cannot be blank");
+    }
     this->name = n;
 }
 
 // Sets a new description for the NPC.
 void NPC::set_description(const std::string& desc) {
+    if (desc.empty()){
+        throw std::runtime_error("Description cannot be blank");
+    }
     this->description = desc;
 }
 
