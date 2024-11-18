@@ -37,6 +37,12 @@ class Item {
         // Constructor
         Item(const std::string &name, const std::string &description, int calories, float weight);
 
+        // Getters
+        std::string get_name();
+        std::string get_desc();
+        int get_calories();
+        float get_weight();
+
         // Overloading the stream operator to depict all info contained in a item easily
 
         friend std::ostream& operator<<(std::ostream& os, const Item& item){
@@ -63,6 +69,7 @@ class Location {
         void add_npc(NPC& npc);
         void add_item(Item& item);
         void set_visited();
+        void remove_item(Item&);
         // Getters
         std::string get_name();
         std::string get_desc();
@@ -109,7 +116,7 @@ class Location {
         std::map<std::string, Location*> neighbors;
 };
 
-/*class Game {
+class Game {
     public:
         // Constructor
         Game();
@@ -135,7 +142,7 @@ class Location {
         int needed_calories;
         float current_weight;
         float max_weight;
-};*/
+};
 
 
 #endif

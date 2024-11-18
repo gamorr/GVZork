@@ -35,6 +35,10 @@ void Location::add_item(Item& item) {
     this->items.push_back(item);
 }
 
+void Location::remove_item(Item& item) {
+    this->items.erase(find(this->items.begin(), this->items.end(), item));
+}
+
 // set_visited can only change visited status to true
 void Location::set_visited() {
     this->visited = true;

@@ -18,6 +18,7 @@ Game::Game() {
     this->max_weight = 30;
 
     this->current_location = locations[0]; // player starts in the ravines
+    this->current_location.set_visited(); // Makes the start location visited
     play();
     
 }
@@ -26,6 +27,7 @@ void Game::play(){
     std::map<std::string, std::function<void(std::vector<std::string>)>> commands = setup_commands();
     std::cout << "Hello Traveler, and welcome to the enchanting world of Grand Valley State University! Quite an exciting and charming place. However, theres this random elf that needs some food and if he does not get it he will destroy the place. Can you help us out?" << std::endl;
     while(needed_calories > current_calories){
+        // NEED TO UPDATE THIS, can print out location to get most of the info below
         std::cout << "You are currently in " << current_location << " and you currently have " << current_calories << "calories out of " << needed_calories << "\n" << std::endl;
         std::cout << "There are currently " << current_location.get_items().size() << " items:\n";
         for (const auto& item : current_location.get_items()) {
@@ -183,11 +185,11 @@ void Game::talk(std::vector<std::string> args) {
 
     std::string npc_name = args[0];
     NPC* target_npc;
-    std::vector<NPC> npcs = current_location.get_npcs();
+    std::vector<std::reference_wrapper<NPC> > npcs = current_location.get_npcs();
 
     for(auto it = npcs.begin(); it!= npcs.end(); it++){
-        if (it->get_name() == npc_name){
-            target_npc = &*it;
+        if (it->get().get_name() == npc_name){
+            target_npc = &(it->get());
             break;
         }
     }
@@ -200,7 +202,7 @@ void Game::talk(std::vector<std::string> args) {
 }
 
 void Game::meet(std::vector<std::string> args) {
-    std::vector<NPC> npcs = current_location.get_npcs();
+    std::vector<std::reference_wrapper<NPC> > npcs = current_location.get_npcs();
 
     if (npcs.empty()) {
         std::cout << "There are no NPCs in this location to meet.\n";
@@ -210,7 +212,7 @@ void Game::meet(std::vector<std::string> args) {
     std::cout << "You see the following NPCs in this location:\n";
 
     for (const auto& npc : npcs) {
-        std::cout << "- " << npc.get_name() << ": " << npc.get_description() << "\n";
+        std::cout << "- " << npc.get().get_name() << ": " << npc.get().get_description() << "\n";
     }
 }
 
@@ -221,13 +223,13 @@ void Game::take(std::vector<std::string> target) {
     }
 
     std::string item_name = target[0];
-    std::vector<Item> items_in_room = current_location.get_items(); // Get all items in the location
+    std::vector<std::reference_wrapper<Item> > items_in_room = current_location.get_items(); // Get all items in the location
     Item* item_to_take;
 
     // Search for the item in the room
-    for (auto& item : items_in_room) {
-        if (item.name == item_name) {
-            item_to_take = &item;
+    for (auto item : items_in_room) {
+        if (item.get().get_name() == item_name) {
+            item_to_take = &(item.get());
             break;
         }
     }
@@ -238,7 +240,7 @@ void Game::take(std::vector<std::string> target) {
     }
 
     // Check if adding the item exceeds the player's carry weight limit (optional logic)
-    float new_weight = current_weight + item_to_take->weight;
+    float new_weight = current_weight + item_to_take->get_weight();
     if (new_weight > max_weight) {
         std::cout << "You cannot carry the '" << item_name << "', it is too heavy!\n";
         return;
@@ -246,12 +248,9 @@ void Game::take(std::vector<std::string> target) {
 
     // Update inventories
     items.push_back(*item_to_take); // Add to player's inventory
-    current_weight += item_to_take->weight;
-    
-    // Created by ChatGPT. Removes the item from the current location.
-    auto it = std::remove_if(items_in_room.begin(), items_in_room.end(),
-                             [&item_name](const Item& item) { return item.name == item_name; });
-    items_in_room.erase(it, items_in_room.end());
+    current_weight += item_to_take->get_weight();
+
+    current_location.remove_item(*item_to_take);
 
     std::cout << "You picked up '" << item_name << "'.\n";
 }
@@ -268,12 +267,12 @@ void Game::give(std::vector<std::string> target) {
 
     // Search for the item in the player's inventory
     for (auto it = items.begin(); it != items.end(); ++it) {
-        if (it->name == item_name) {
+        if (it->get_name() == item_name) {
             item_to_give = &(*it);
 
             // Remove the item from the inventory and update the current calories
-            current_weight -= item_to_give->weight;
-            current_calories += item_to_give->calories;
+            current_weight -= item_to_give->get_weight();
+            current_calories += item_to_give->get_calories();
             items.erase(it);
             break;
         }
@@ -300,7 +299,7 @@ void Game::go(std::vector<std::string> target) {
     // Check if the direction exists in the neighbors map
     auto it = current_location.get_locations().find(direction); // returns the map of neighbors. Checks if the provided direction exists
     if (it != current_location.get_locations().end()) {
-        current_location = it->second; // Update the current location
+        current_location = *(it->second); // Update the current location
          // std::cout << "You move " << direction << " to " << current_location.get_name() << ".\n"; // provide a get_name function so that we can access the location's name
     } else {
         std::cout << "You can't go " << direction << " from here.\n";
