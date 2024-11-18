@@ -303,7 +303,15 @@ void Game::go(std::vector<std::string> target) {
 
 
 void Game::show_items(std::vector<std::string> target) {
-    
+    if (!target.empty()) { //check if target has arguments or not
+        std::cout << "no args required to view inventory!\n";
+        return;
+    }
+
+    std::cout << "Inventory: \n";
+    for (auto it = items.begin(); it != items.end(); ++it) { //search for items in player's inventory  
+        std::cout << it->get_name() << it->get_weight() << " lbs\n"; //print name and weight
+    }
 }
 
 void Game::look(std::vector<std::string> target) {
