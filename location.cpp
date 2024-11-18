@@ -1,5 +1,4 @@
 #include "objects.hpp"
-#include "item.h"
 #include "npc.h"
 #include <string>
 #include <vector>
