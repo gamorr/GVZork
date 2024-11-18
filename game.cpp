@@ -309,3 +309,8 @@ void Game::go(std::vector<std::string> target) {
 }
 
 
+void Game::show_items(std::vector<std::string> target) {
+    
+}
+
+
