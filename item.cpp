@@ -34,11 +34,18 @@ Item::Item(const std::string &name, const std::string &description, int calories
     
 }
 
-int main() {
-    std::string name;
-    std::string description;
-    int calories; 
-    float weight;
+std::string Item::get_name() {
+    return this->name;
+}
 
-    return 0;
+std::string Item::get_desc() {
+    return this->description;
+}
+
+int Item::get_calories() {
+    return this->calories;
+}
+
+float Item::get_weight() {
+    return this->weight;
 }
