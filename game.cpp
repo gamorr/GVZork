@@ -12,12 +12,12 @@ Game::Game() {
     create_world();
 
     // Set default values for player calories and weight
-    needed_calories = 200;
-    current_calories = 0;
-    current_weight = 0;
-    max_weight = 30;
+    this->needed_calories = 200;
+    this->current_calories = 0;
+    this->current_weight = 0;
+    this->max_weight = 30;
 
-    current_location = locations[0]; // player starts in the ravines
+    this->current_location = locations[0]; // player starts in the ravines
     play();
     
 }
@@ -119,24 +119,24 @@ void Game::create_world() {
     haas.add_item(items[0]);
 
     // Link Locations
-    ravines.add_location("north", mackinac);
-    ravines.add_location("south", calder);
-    ravines.add_location("west", zumberge);
-    zumberge.add_location("west", kirkhoff);
-    zumberge.add_location("north", padnos);
-    zumberge.add_location("south", haas);
-    zumberge.add_location("east", ravines);
-    kirkhoff.add_location("east", zumberge);
-    kirkhoff.add_location("west", library);
-    library.add_location("east", kirkhoff);
-    padnos.add_location("south", zumberge);
-    padnos.add_location("east", mackinac);
-    haas.add_location("north", zumberge);
-    haas.add_location("east", calder);
-    calder.add_location("north", ravines);
-    calder.add_location("west", haas);
-    mackinac.add_location("south", ravines);
-    mackinac.add_location("west", padnos);
+    ravines.add_location("north", &mackinac);
+    ravines.add_location("south", &calder);
+    ravines.add_location("west", &zumberge);
+    zumberge.add_location("west", &kirkhoff);
+    zumberge.add_location("north", &padnos);
+    zumberge.add_location("south", &haas);
+    zumberge.add_location("east", &ravines);
+    kirkhoff.add_location("east", &zumberge);
+    kirkhoff.add_location("west", &library);
+    library.add_location("east", &kirkhoff);
+    padnos.add_location("south", &zumberge);
+    padnos.add_location("east", &mackinac);
+    haas.add_location("north", &zumberge);
+    haas.add_location("east", &calder);
+    calder.add_location("north", &ravines);
+    calder.add_location("west", &haas);
+    mackinac.add_location("south", &ravines);
+    mackinac.add_location("west", &padnos);
 
     locations.push_back(ravines);
     locations.push_back(kirkhoff);

@@ -56,18 +56,19 @@ class Location {
          
         // Constructor
         Location(const std::string& name, const std::string& description);
+        Location();
                 
         // Setters
-        void add_location(const std::string& direction, const Location location);
-        void add_npc(NPC npc);
-        void add_item(Item item);
+        void add_location(const std::string& direction, Location* location);
+        void add_npc(NPC& npc);
+        void add_item(Item& item);
         void set_visited();
         // Getters
         std::string get_name();
         std::string get_desc();
-        std::map<std::string, Location> get_locations();
-        std::vector<NPC> get_npcs();
-        std::vector<Item> get_items();
+        std::map<std::string, Location*> get_locations();
+        std::vector<std::reference_wrapper<NPC> > get_npcs();
+        std::vector<std::reference_wrapper<Item> > get_items();
         bool get_visited() const;
 
         // Overloading the stream operator to depict all info contained in a location
@@ -85,10 +86,15 @@ class Location {
             }
             os << std::endl << "You can go in the following Directions:" << std::endl;
             for(auto it = other.neighbors.begin(); it!=other.neighbors.end(); ++it) {
-                os << "\t- " << it->first << " - " << it->second;
-                //if(it->second.get_visited()) {
-                   // os << " (Visited)";
-                //}
+                if(!it->second->get_visited()) {
+                    os << it->first << " - Unknown";
+                }
+                else {
+                    os << "\t- " << it->first << " - " << it->second->get_name();
+                    if(it->second->get_visited()) {
+                        os << " (Visited)";
+                    }
+                }
                 os << std::endl;
             }
             return os;
@@ -97,10 +103,10 @@ class Location {
     private:
         std::string name;
         std::string description;
-        std::vector<NPC> npcs;
-        std::vector<Item> items;
+        std::vector<std::reference_wrapper<NPC> > npcs;
+        std::vector<std::reference_wrapper<Item> > items;
         bool visited;
-        std::map<std::string, Location> neighbors;
+        std::map<std::string, Location*> neighbors;
 };
 
 /*class Game {
@@ -129,7 +135,7 @@ class Location {
         int needed_calories;
         float current_weight;
         float max_weight;
-};
-*/
+};*/
+
 
 #endif
