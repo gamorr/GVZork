@@ -1,3 +1,4 @@
+
 #ifndef             __H__OBJECTS__
 #define             __H__OBJECTS__
 
@@ -146,12 +147,14 @@ class Game {
         void show_items(std::vector<std::string> target);
         void look(std::vector<std::string> target);
         void quit(std::vector<std::string> target);
+        void teleport(std::vector<std::string> target);
 
     private:
         Location current_location;
         std::map<std::string, std::function<void(*)(std::vector<std::string>)> > commands;
         std::vector<Item> items;
         std::vector<Location> locations;
+        bool can_teleport;
         int current_calories;
         int needed_calories;
         float current_weight;

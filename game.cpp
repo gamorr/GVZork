@@ -16,6 +16,7 @@ Game::Game() {
     this->current_calories = 0;
     this->current_weight = 0;
     this->max_weight = 30;
+    this->can_teleport = true;
 
     this->current_location = locations[0]; // player starts in the ravines
     this->current_location.set_visited(); // Makes the start location visited
@@ -312,4 +313,29 @@ void Game::look(std::vector<std::string> target) {
 void Game::quit(std::vector<std::string> target) {
     std::cout << "You decided that someone else could save GV. Later, the Elf destroyed GV.\n\nYou Lose." << std::endl;
     std::exit(0);
+}
+
+void Game::teleport(std::vector<std::string> target) {
+    if (target.empty()) {
+        std::cout << "You need to specify a direction to go.\n";
+        return;
+    }
+
+    std::string direction = target[0];
+
+    // Check if the location exists in the locations vector
+    if (can_teleport){
+        auto it = std::find(locations.begin(), locations.end(), direction); // finds the location in the vector of locations.
+        if (it != locations.end()) {
+            current_location = *it; // Update the current location   
+            std::cout << "You are now in" << current_location;
+            can_teleport = false;
+        }
+        else {
+            std::cout << "There is no" << direction << "here.\n";
+        }
+    }
+    else {
+        std::cout << "You cannot teleport anymore!" << std::endl;
+    }
 }
