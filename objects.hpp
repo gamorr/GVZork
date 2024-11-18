@@ -147,6 +147,7 @@ class Game {
         void look(std::vector<std::string> target);
         void quit(std::vector<std::string> target);
 
+    private:
         Location current_location;
         std::map<std::string, std::function<void(*)(std::vector<std::string>)> > commands;
         std::vector<Item> items;

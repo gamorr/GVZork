@@ -25,21 +25,15 @@ Game::Game() {
 
 void Game::play(){
     std::map<std::string, std::function<void(std::vector<std::string>)>> commands = setup_commands();
-    std::cout << "Hello Traveler, and welcome to the enchanting world of Grand Valley State University! Quite an exciting and charming place. However, theres this random elf that needs some food and if he does not get it he will destroy the place. Can you help us out?" << std::endl;
+    // Introduction 
+    std::cout << "Hello Traveler, and welcome to the enchanting world of Grand Valley State University!\nQuite an exciting and charming place.\nHowever, theres this elf that needs some food and if he does not get it he will destroy the place. Can you help us out?" << std::endl;
     while(needed_calories > current_calories){
-        // NEED TO UPDATE THIS, can print out location to get most of the info below
-        std::cout << "You are currently in " << current_location << " and you currently have " << current_calories << "calories out of " << needed_calories << "\n" << std::endl;
-        std::cout << "There are currently " << current_location.get_items().size() << " items:\n";
-        for (const auto& item : current_location.get_items()) {
-            std::cout << "\t- " << item << "\n"; 
-        }
-
-        std::cout << "\nYou can travel to the following locations:\n";
-        for (const auto& location : current_location.get_locations()) {
-            // std::cout << "\t- " << location << "\n";
-        }
+        // DEVNOTE - we might want to get rid of printing the location every loop, since look is a command
+        std::cout << "You are currently in " << current_location;
+        std::cout << "You currently have " << current_calories << "calories out of " << needed_calories << "." << std::endl << std::endl;
 
         std::cout << "What would you like to do?\n" << std::endl;
+
         std::string user_response;
         std::cin >> user_response;
         std::vector<std::string> tokens;
@@ -63,7 +57,7 @@ void Game::play(){
 
 
 void Game::create_world() {
-    // Create Items
+    // Create Items  // DEVNOTE - we need 5 more items, probably more that don't have a calorie count
     items.push_back(Item("Banana", "Lots of potassium", 40, 3.5f));
     items.push_back(Item("Apple", "A fresh, juicy apple.", 20, 3.5f));
     items.push_back(Item("Cookie", "Very chocolate", 100, 3.5f));
@@ -90,7 +84,7 @@ void Game::create_world() {
     felix.add_message("Unless you know how to find the eigenvectors of a matrix, I'm not interested in talking to you.");
     felix.add_message("I don't have any food, if that's what you want. I guess there's this peanut on the ground, you can have that.");
 
-    NPC walker("Walker", "He really like to sing, and loudly too.");
+    NPC walker("Walker", "He really likes to sing, and loudly too.");
     walker.add_message("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     walker.add_message("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
     walker.add_message("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
@@ -312,10 +306,10 @@ void Game::show_items(std::vector<std::string> target) {
 }
 
 void Game::look(std::vector<std::string> target) {
-    std::cout << current_location;
+    std::cout << "You are currently in " << current_location;
 }
 
 void Game::quit(std::vector<std::string> target) {
-    std::cout << "You decided that GV was just fine and the Elf did not need to fix GV.\n\nYou Lose." << std::endl;
+    std::cout << "You decided that someone else could save GV. Later, the Elf destroyed GV.\n\nYou Lose." << std::endl;
     std::exit(0);
 }
