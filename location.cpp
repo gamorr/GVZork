@@ -17,13 +17,13 @@ Location::Location(const std::string& name, const std::string& description) {
 // Keys for the location map are the direction that are in the form 
 // North, East, South, West.
 // Blank strings or already added keys raise errors
-void Location::add_location(const std::string& direction, const Location& location) {
+void Location::add_location(const std::string& direction, const Location location) {
     if (direction.empty()) { // Throws error if direction key is blank
         throw std::runtime_error("String is blank");
     } else if (this->neighbors.count(direction) == 1) { // Throws error if direction key already exists
         throw std::runtime_error("Key already exists");
     } else {
-        this->neighbors.insert({direction,location});
+        this->neighbors.insert(make_pair(direction,location));
     }
 }
 
@@ -49,7 +49,7 @@ std::string Location::get_desc() {
     return this->description;
 }
 
-std::map<std::string, std::reference_wrapper<Location> > Location::get_locations() {
+std::map<std::string, Location> Location::get_locations() {
     return this->neighbors;
 }
 
@@ -71,8 +71,8 @@ int main(int argc, char** argv){
     Location Store("Harrys", "A very small party store facing away from the road.\nThere is 2 year old expired sour cream inside");
     House.add_location("West", Store);
     Store.add_location("East", Store);
-    House.add_location("West", Store);
 
+    std::cout << House << Store << std::endl;
 
 
     return 0;

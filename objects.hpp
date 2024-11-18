@@ -19,7 +19,7 @@ class NPC {
         std::string get_message();
 
         friend std::ostream& operator<<(std::ostream& os, const NPC& npc) {
-        os << npc.get_name(); 
+        os << npc.name; 
         return os;
         }
 
@@ -58,14 +58,14 @@ class Location {
         Location(const std::string& name, const std::string& description);
                 
         // Setters
-        void add_location(const std::string& direction, const Location& location);
+        void add_location(const std::string& direction, const Location location);
         void add_npc(NPC npc);
         void add_item(Item item);
         void set_visited();
         // Getters
         std::string get_name();
         std::string get_desc();
-        std::map<std::string, std::reference_wrapper<Location> > get_locations();
+        std::map<std::string, Location> get_locations();
         std::vector<NPC> get_npcs();
         std::vector<Item> get_items();
         bool get_visited() const;
@@ -100,7 +100,7 @@ class Location {
         std::vector<NPC> npcs;
         std::vector<Item> items;
         bool visited;
-        std::map<std::string, std::reference_wrapper<Location> > neighbors;
+        std::map<std::string, Location> neighbors;
 };
 
 /*class Game {
