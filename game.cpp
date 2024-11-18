@@ -166,6 +166,16 @@ std::map<std::string, std::function<void(std::vector<std::string>)>> Game::setup
     return command_map;
 }
 
+Location Game::random_location() {
+    std::random_device rd; // Seed generator
+    std::mt19937 gen(rd()); // Mersenne Twister engine
+    std::uniform_int_distribution<> dist(0, locations.size() - 1);
+
+    // return random location
+    int randomIndex = dist(gen);
+    return locations[randomIndex];
+}
+
 void Game::show_help() {
     std::cout << "Available commands:\n";
     std::cout << "  talk <NPC> - Talk to an NPC in the current location.\n";
@@ -176,6 +186,8 @@ void Game::show_help() {
     std::cout << "  items - Show items in your inventory.\n";
     std::cout << "  look - Get information on your current location.\n";
     std::cout << "  quit - Exit the game.\n";
+    std::cout << "  teleport - Teleport to a location.\n";
+    std::cout << "  dance - Start dancing on the spot\n";
 }
 
 void Game::talk(std::vector<std::string> args) {
@@ -279,14 +291,7 @@ void Game::give(std::vector<std::string> target) {
             // if the item is not edible, the player will be sent to a random location
             if (item_to_give->get_calories() == 0){
                 std::cout << "Blah! This is not edible! I banish thee!" << std::endl;
-                // Initialize random number generator
-                std::random_device rd; // Seed generator
-                std::mt19937 gen(rd()); // Mersenne Twister engine
-                std::uniform_int_distribution<> dist(0, locations.size() - 1);
-
-                // set the current location to a random one
-                int randomIndex = dist(gen);
-                current_location = locations[randomIndex];
+                current_location = this->random_location();
             }
 
             break;
@@ -365,5 +370,17 @@ void Game::teleport(std::vector<std::string> target) {
     }
     else {
         std::cout << "You cannot teleport anymore!" << std::endl;
+    }
+}
+
+void Game::dance(std::vector<std::string> target) {
+    // Initialize values
+    std::vector<std::string> Dances = {"Griddy", "Tap Dance", "Moonwalk", "Floss", "Dab", "Nae Nae", "Wobble", "Dougie"};
+    std::srand(std::time(nullptr));
+    int dance = std::rand() / Dances.size();
+
+    std::cout << "You start hitting the " << Dances[dance] << "." << std::endl;
+    if (!current_location.get_npcs().empty()) {
+        std::cout << "The people in the area approve." << std::endl;
     }
 }
