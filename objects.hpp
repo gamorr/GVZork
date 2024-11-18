@@ -19,7 +19,7 @@ class NPC {
         std::string get_message();
 
         friend std::ostream& operator<<(std::ostream& os, const NPC& npc) {
-        os << npc.get_name(); 
+        os << npc.name; 
         return os;
         }
 
@@ -34,8 +34,11 @@ class NPC {
 
 class Item {
     public: 
+        // Constructor
         Item(const std::string &name, const std::string &description, int calories, float weight);
-        
+
+        // Overloading the stream operator to depict all info contained in a item easily
+
         friend std::ostream& operator<<(std::ostream& os, const Item& item){
             os << item.name << " (" << item.calories << " calories" << ")" << " - " << item.weight << " lb " << "- " << item.description << std::endl;
             return os;
@@ -53,18 +56,19 @@ class Location {
          
         // Constructor
         Location(const std::string& name, const std::string& description);
-        // default constructor
         Location();
-        
+                
         // Setters
-        void add_location(const std::string& direction, const Location& location);
-        void add_npc(NPC npc);
-        void add_item(Item item);
+        void add_location(const std::string& direction, Location* location);
+        void add_npc(NPC& npc);
+        void add_item(Item& item);
         void set_visited();
         // Getters
-        std::map<std::string, Location> get_locations();
-        std::vector<NPC> get_npcs();
-        std::vector<Item> get_items();
+        std::string get_name();
+        std::string get_desc();
+        std::map<std::string, Location*> get_locations();
+        std::vector<std::reference_wrapper<NPC> > get_npcs();
+        std::vector<std::reference_wrapper<Item> > get_items();
         bool get_visited() const;
 
         // Overloading the stream operator to depict all info contained in a location
@@ -82,10 +86,15 @@ class Location {
             }
             os << std::endl << "You can go in the following Directions:" << std::endl;
             for(auto it = other.neighbors.begin(); it!=other.neighbors.end(); ++it) {
-                os << "\t- " << it->first << " - " << it->second;
-                //if(it->second.get_visited()) {
-                   // os << " (Visited)";
-                //}
+                if(!it->second->get_visited()) {
+                    os << it->first << " - Unknown";
+                }
+                else {
+                    os << "\t- " << it->first << " - " << it->second->get_name();
+                    if(it->second->get_visited()) {
+                        os << " (Visited)";
+                    }
+                }
                 os << std::endl;
             }
             return os;
@@ -94,10 +103,39 @@ class Location {
     private:
         std::string name;
         std::string description;
-        std::vector<NPC> npcs;
-        std::vector<Item> items;
+        std::vector<std::reference_wrapper<NPC> > npcs;
+        std::vector<std::reference_wrapper<Item> > items;
         bool visited;
-        std::map<std::string, Location> neighbors;
+        std::map<std::string, Location*> neighbors;
 };
+
+/*class Game {
+    public:
+        // Constructor
+        Game();
+        
+        void create_world();
+        std::map<std::string, std::function<void(std::vector<std::string>)>> setup_commands(); // map of command, function name        
+        void play();
+        void show_help();
+        void talk(std::vector<std::string> target); 
+        void meet(std::vector<std::string> target); 
+        void take(std::vector<std::string> target);
+        void give(std::vector<std::string> target);
+        void go(std::vector<std::string> target);
+        void show_items(std::vector<std::string> target);
+        void look(std::vector<std::string> target);
+        void quit(std::vector<std::string> target);
+
+        Location current_location;
+        std::map<std::string, std::function<void(*)(std::vector<std::string>)>> commands;
+        std::vector<Item> items;
+        std::vector<Location> locations;
+        int current_calories;
+        int needed_calories;
+        float current_weight;
+        float max_weight;
+};*/
+
 
 #endif
