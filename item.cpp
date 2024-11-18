@@ -1,3 +1,8 @@
+/**
+ * Authors:   Harrison Waldon, Gavin Morrow, Gavin Cowan
+ * Created:   11.9.2024
+ **/
+
 #include <iostream> 
 #include "objects.hpp"
 #include <typeinfo>
@@ -8,7 +13,7 @@ Item::Item(const std::string &name, const std::string &description, int calories
     this->description = description;
     this->calories = calories;
     this->weight = weight;
-    bool isEdible; 
+    bool isEdible;
 
     if (name.empty() || description.empty()) {
         throw std::runtime_error("String is blank");
@@ -49,3 +54,4 @@ int Item::get_calories() {
 float Item::get_weight() {
     return this->weight;
 }
+

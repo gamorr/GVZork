@@ -1,4 +1,7 @@
-
+/**
+ * Authors:   Harrison Waldon, Gavin Morrow, Gavin Cowan
+ * Created:   11.7.2024
+ **/
 #ifndef             __H__OBJECTS__
 #define             __H__OBJECTS__
 
@@ -43,6 +46,7 @@ class Item {
         std::string get_desc();
         int get_calories();
         float get_weight();
+    
 
         // Overloading the stream operator to depict all info contained in a item easily
 

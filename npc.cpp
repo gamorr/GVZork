@@ -1,3 +1,9 @@
+/**
+ * Authors:   Harrison Waldon, Gavin Morrow, Gavin Cowan
+ * Created:   11.9.2024
+ **/
+
+
 #include "objects.hpp"
 #include <string>
 #include <vector>

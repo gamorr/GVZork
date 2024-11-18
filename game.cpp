@@ -1,9 +1,15 @@
+/**
+ * Authors:   Harrison Waldon, Gavin Morrow, Gavin Cowan
+ * Created:   11.16.2024
+ **/
+
 #include "objects.hpp"
 #include <iostream>
 #include <string>
 #include <map>
 #include <vector>
 #include <algorithm>
+#include <random> 
 
 
 Game::Game() {
@@ -265,10 +271,24 @@ void Game::give(std::vector<std::string> target) {
         if (it->get_name() == item_name) {
             item_to_give = &(*it);
 
-            // Remove the item from the inventory and update the current calories
+             // Remove the item from the inventory and update the current calories and weight
             current_weight -= item_to_give->get_weight();
             current_calories += item_to_give->get_calories();
             items.erase(it);
+
+            // if the item is not edible, the player will be sent to a random location
+            if (item_to_give->get_calories() == 0){
+                std::cout << "Blah! This is not edible! I banish thee!" << std::endl;
+                // Initialize random number generator
+                std::random_device rd; // Seed generator
+                std::mt19937 gen(rd()); // Mersenne Twister engine
+                std::uniform_int_distribution<> dist(0, locations.size() - 1);
+
+                // set the current location to a random one
+                int randomIndex = dist(gen);
+                current_location = locations[randomIndex];
+            }
+
             break;
         }
     }

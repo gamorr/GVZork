@@ -1,9 +1,15 @@
+/**
+ * Authors:   Harrison Waldon, Gavin Morrow, Gavin Cowan
+ * Created:   11.9.2024
+ **/
+
 #include "objects.hpp"
 #include <string>
 #include <vector>
 #include <map>
 #include <iostream>
 #include <utility>
+#include <algorithm>
 
 // Constructor takes in a name and description for a location and automatically 
 // sets the visited status to false
