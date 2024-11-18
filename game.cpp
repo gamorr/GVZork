@@ -109,7 +109,7 @@ void Game::create_world() {
 
 
     // Add NPCs and Items to Locations
-    // DEVNOTE - probably should randomly assign things to locations using the random_location function
+    // DEVNOTE - probably should randomly assign things to locations using the random_location function other than the elf
     ravines.add_npc(elf);
     calder.add_npc(joel);
     zumberge.add_npc(samantha);
@@ -153,6 +153,7 @@ void Game::create_world() {
     locations.push_back(calder);
 }
 
+// Sets up all commands
 std::map<std::string, std::function<void(std::vector<std::string>)>> Game::setup_commands() {
     std::map<std::string, std::function<void(std::vector<std::string>)>> command_map;
     command_map["help"] = [this](std::vector<std::string> args) { show_help(); };
@@ -168,6 +169,7 @@ std::map<std::string, std::function<void(std::vector<std::string>)>> Game::setup
     return command_map;
 }
 
+// Selects a random location from the locations in the game
 Location Game::random_location() {
     std::random_device rd; // Seed generator
     std::mt19937 gen(rd()); // Mersenne Twister engine
@@ -178,6 +180,7 @@ Location Game::random_location() {
     return locations[randomIndex];
 }
 
+// Displays all commands, how to use them and what they do
 void Game::show_help() {
     std::cout << "Available commands:\n";
     std::cout << "  talk <NPC> - Talk to an NPC in the current location.\n";
@@ -192,6 +195,7 @@ void Game::show_help() {
     std::cout << "  dance - Start dancing on the spot\n";
 }
 
+// Talks to the specified NPC. If none is specified, a different message will send
 void Game::talk(std::vector<std::string> args) {
     if (args.empty()) {
         std::cout << "You need to specify an NPC to talk to.\n";
@@ -216,7 +220,7 @@ void Game::talk(std::vector<std::string> args) {
     }
 }
 
-// See all 
+// See all NPCs and who they are in the current location
 void Game::meet(std::vector<std::string> args) {
     std::vector<std::reference_wrapper<NPC> > npcs = current_location.get_npcs();
 
