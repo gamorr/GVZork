@@ -311,4 +311,11 @@ void Game::show_items(std::vector<std::string> target) {
     
 }
 
+void Game::look(std::vector<std::string> target) {
+    std::cout << current_location;
+}
 
+void Game::quit(std::vector<std::string> target) {
+    std::cout << "You decided that GV was just fine and the Elf did not need to fix GV.\n\nYou Lose." << std::endl;
+    std::exit(0);
+}

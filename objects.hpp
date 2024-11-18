@@ -46,7 +46,7 @@ class Item {
         // Overloading the stream operator to depict all info contained in a item easily
 
         friend std::ostream& operator<<(std::ostream& os, const Item& item){
-            os << item.name << " (" << item.calories << " calories" << ")" << " - " << item.weight << " lb " << "- " << item.description << std::endl;
+            os << item.name << " (" << item.calories << " calories" << ")" << " - " << item.weight << " lb - " << item.description << std::endl;
             return os;
         }
     private: 
@@ -82,28 +82,41 @@ class Location {
         // in an easy to read manner
 
         friend std::ostream& operator<<(std::ostream& os, const Location& other) {
-            os << other.name << " - " << other. description << std::endl;
-            os << std::endl << "You see the following NPCs:" << std::endl;
-            for(auto it = other.npcs.begin(); it != other.npcs.end(); ++it) {
-                os << "\t- " << *it << std::endl;
+            os << other.name << " - " << other.description << std::endl << std::endl;
+
+            if (other.npcs.empty()) { // Different output if there are no npcs
+                os << "You are alone." << std::endl << std::endl;
             }
-            os << std::endl << "You see the following Items:" << std::endl;
-            for(auto it = other.items.begin(); it!=other.items.end(); ++it) {
-                os << "\t- " << *it << std::endl;
-            }
-            os << std::endl << "You can go in the following Directions:" << std::endl;
-            for(auto it = other.neighbors.begin(); it!=other.neighbors.end(); ++it) {
-                if(!it->second->get_visited()) {
-                    os << it->first << " - Unknown";
-                }
-                else {
-                    os << "\t- " << it->first << " - " << it->second->get_name();
-                    if(it->second->get_visited()) {
-                        os << " (Visited)";
-                    }
+            else {
+                os << "You see the following NPCs:" << std::endl;
+                for(auto it = other.npcs.begin(); it != other.npcs.end(); ++it) {
+                    os << "\t- " << *it << std::endl;
                 }
                 os << std::endl;
             }
+
+            if (other.items.empty()) { // Different output if there are no items
+                os << "There are no items here." << std::endl << std::endl;
+            }
+            else {
+                os << "You see the following Items:" << std::endl;
+                for(auto it = other.items.begin(); it!=other.items.end(); ++it) {
+                    os << "\t- " << *it;
+                }
+                os << std::endl;
+            }
+
+            os << "You can go in the following Directions:" << std::endl;
+            for(auto it = other.neighbors.begin(); it!=other.neighbors.end(); ++it) {
+                if(!it->second->visited) { // Prints unknown if the 
+                    os << it->first << "\t- Unknown";
+                }
+                else {
+                    os << "\t- " << it->first << " - " << it->second->name << " (Visited)";
+                }
+                os << std::endl;
+            }
+            os << std::endl;
             return os;
         }
 
@@ -122,7 +135,7 @@ class Game {
         Game();
         
         void create_world();
-        std::map<std::string, std::function<void(std::vector<std::string>)>> setup_commands(); // map of command, function name        
+        std::map<std::string, std::function<void(std::vector<std::string>)> > setup_commands(); // map of command, function name        
         void play();
         void show_help();
         void talk(std::vector<std::string> target); 
@@ -135,7 +148,7 @@ class Game {
         void quit(std::vector<std::string> target);
 
         Location current_location;
-        std::map<std::string, std::function<void(*)(std::vector<std::string>)>> commands;
+        std::map<std::string, std::function<void(*)(std::vector<std::string>)> > commands;
         std::vector<Item> items;
         std::vector<Location> locations;
         int current_calories;
