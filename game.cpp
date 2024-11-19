@@ -33,7 +33,7 @@ Game::Game() {
 // Play the game, automatically sets up commands upon playing and prints an introduction
 // Then waits for user input 
 void Game::play(){
-    std::map<std::string, std::function<void(std::vector<std::string>)>> commands = setup_commands();
+    std::map<std::string, std::function<void (std::vector<std::string>)> > commands = setup_commands();
     // Introduction 
     std::cout << "Hello Traveler, and welcome to the enchanting world of Grand Valley State University!\nQuite an exciting and charming place.\nHowever, theres this elf in the ravines that needs some food and if he does not get it he will destroy the place. \nCan you help us out?" << std::endl;
     std::cout << "You are currently in " << current_location;
@@ -107,21 +107,29 @@ void Game::create_world() {
     Location padnos("Padnos", "A chemistry lab with many safety protocols.");
     Location ravines("Ravines", "A dense forest within a winding system of ravines");
 
+    this->locations.push_back(kirkhoff);
+    this->locations.push_back(zumberge);
+    this->locations.push_back(haas);
+    this->locations.push_back(mackinac);
+    this->locations.push_back(calder);
+    this->locations.push_back(library);
+    this->locations.push_back(padnos);
+    this->locations.push_back(ravines);
 
     // Add NPCs and Items to Locations
     // DEVNOTE - probably should randomly assign things to locations using the random_location function other than the elf
     ravines.add_npc(elf);
-    calder.add_npc(joel);
-    zumberge.add_npc(samantha);
-    mackinac.add_npc(felix);
-    haas.add_npc(walker);
+    this->random_location().add_npc(joel);
+    this->random_location().add_npc(samantha);
+    this->random_location().add_npc(felix);
+    this->random_location().add_npc(walker);
 
-    library.add_item(items[4]);
-    padnos.add_item(items[1]);
-    kirkhoff.add_item(items[2]);
-    calder.add_item(items[3]);
-    mackinac.add_item(items[5]);
-    haas.add_item(items[0]);
+    this->random_location().add_item(items[4]);
+    this->random_location().add_item(items[1]);
+    this->random_location().add_item(items[2]);
+    this->random_location().add_item(items[3]);
+    this->random_location().add_item(items[5]);
+    this->random_location().add_item(items[0]);
 
     // Link Locations
     ravines.add_location("north", &mackinac);
@@ -142,15 +150,6 @@ void Game::create_world() {
     calder.add_location("west", &haas);
     mackinac.add_location("south", &ravines);
     mackinac.add_location("west", &padnos);
-
-    locations.push_back(ravines);
-    locations.push_back(kirkhoff);
-    locations.push_back(zumberge);
-    locations.push_back(haas);
-    locations.push_back(mackinac);
-    locations.push_back(padnos);
-    locations.push_back(library);
-    locations.push_back(calder);
 }
 
 // Sets up all commands
