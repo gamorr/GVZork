@@ -42,7 +42,12 @@ void Location::add_item(Item& item) {
 }
 
 void Location::remove_item(Item& item) {
-    this->items.erase(find(this->items.begin(), this->items.end(), item));
+    for(auto it = this->items.begin(); it != this->items.end(); ++it) {
+        if (it->get().get_name() == item.get_name()) {
+            this->items.erase(it);
+            break;
+        }
+    }
 }
 
 // set_visited can only change visited status to true
