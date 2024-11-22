@@ -356,25 +356,26 @@ void Game::quit(std::vector<std::string> target) {
     std::exit(0);
 }
 
+// Teleports the player to the specified
 void Game::teleport(std::vector<std::string> target) {
     if (target.empty()) {
         std::cout << "You need to specify a direction to go.\n";
         return;
     }
 
-    std::string direction = target[0];
+    std::string loc = target[0];
 
     // Check if the location exists in the locations vector
     if (can_teleport){ 
         for(auto it = locations.begin(); it != locations.end(); ++it) { // finds the location in the vector of locations.
-            if(it->get().get_name() == direction) {
+            if(it->get().get_name() == loc) {
                 can_teleport = false;
                 current_location = it->get();
                 std::cout << "You are now in " << current_location.get_name();
                 return;
             }
         }
-        std::cout << "There is no" << direction << "here.\n";
+        std::cout << "There is no" << loc << "here.\n";
     }
     else {
         std::cout << "You cannot teleport anymore!" << std::endl;
