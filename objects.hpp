@@ -28,8 +28,8 @@ class NPC {
 
         // Overloaded stream for output, only outputs the name
         friend std::ostream& operator<<(std::ostream& os, const NPC& npc) {
-        os << npc.name; 
-        return os;
+            os << npc.name; 
+            return os;
         }
 
     private:

@@ -62,8 +62,3 @@ std::string NPC::get_message() {
 
     return current_message;
 }
-// Overloaded << operator for NPC: prints only the name of the NPC.
-std::ostream& operator<<(std::ostream& os, const NPC& npc) {
-    os << npc.get_name();
-    return os;
-}
