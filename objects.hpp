@@ -1,3 +1,4 @@
+
 /**
  * Authors:   Harrison Waldon, Gavin Morrow, Gavin Cowan
  * Created:   11.7.2024
@@ -10,6 +11,7 @@
 #include <string>
 #include <map>
 #include <iostream>
+
 
 class NPC {
     public:
@@ -137,13 +139,14 @@ class Location {
 
 class Game {
     public:
+
         // Constructor
         Game();
         
         // Backend functions
         void create_world();
         std::map<std::string, std::function<void(std::vector<std::string>)> > setup_commands(); // map of command, function name        
-        Location random_location();
+        Location& random_location();
         void play();
 
         // Player commands
@@ -163,7 +166,7 @@ class Game {
         Location current_location;
         std::map<std::string, std::function<void(std::vector<std::string>)> > commands;
         std::vector<Item> items;
-        std::vector<std::reference_wrapper<Location> > locations;
+        std::vector<std::reference_wrapper<Location>> locations;
         bool can_teleport;
         int current_calories;
         int needed_calories;

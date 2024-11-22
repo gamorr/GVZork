@@ -11,6 +11,7 @@
 #include <utility>
 #include <algorithm>
 
+
 // Constructor takes in a name and description for a location and automatically 
 // sets the visited status to false
 Location::Location(const std::string& name, const std::string& description) {
@@ -18,6 +19,13 @@ Location::Location(const std::string& name, const std::string& description) {
     this->description = description;
     this->visited = false;
 }
+
+// Default Constructor
+Location::Location()
+    : name("Unnamed"), description("No description"), visited(false) {
+    // Initializes default values for a Location
+}
+
 
 // Setters
 // Keys for the location map are the direction that are in the form 
@@ -34,11 +42,11 @@ void Location::add_location(const std::string& direction, Location* location) {
 }
 
 void Location::add_npc(NPC& npc) {
-    this->npcs.push_back(npc);
+    this->npcs.push_back(std::ref(npc));
 }
 
 void Location::add_item(Item& item) {
-    this->items.push_back(item);
+    this->items.push_back(std::ref(item));
 }
 
 // Remove item from a location
