@@ -239,8 +239,8 @@ void Game::meet(std::vector<std::string> args) {
 
     std::cout << "You see the following NPCs in this location:\n";
 
-    for (const auto& npc : npcs) {
-        std::cout << "- " << npc.get().get_name() << ": " << npc.get().get_description() << "\n";
+    for (auto it = npcs.begin(); it != npcs.end(); ++it) {
+        std::cout << "- " << it->get().get_name() << ": " << it->get().get_description() << "\n";
     }
 }
 
@@ -333,8 +333,8 @@ void Game::go(std::vector<std::string> target) {
     // Mark the current location as visited
     current_location.set_visited(); // Set the current location's visited status to true
     // Check if the direction exists in the neighbors map
-    if (current_location.get_locations()[direction] != nullptr) {
-        current_location = *(current_location.get_locations()[direction]); // Update the current location
+    if (current_location.get_locations().count(direction) == 1) {
+        current_location = current_location.get_locations()[direction].get(); // Update the current location
          // std::cout << "You move " << direction << " to " << current_location.get_name() << ".\n"; // provide a get_name function so that we can access the location's name
     } else {
         std::cout << "You can't go " << direction << " from here.\n";
@@ -348,9 +348,13 @@ void Game::show_items(std::vector<std::string> target) {
         return;
     }
 
+    if(items.empty()) { // Check if there are no items
+        std::cout << "You have no items." << std::endl;
+    }
+
     std::cout << "Inventory: \n";
     for (auto it = items.begin(); it != items.end(); ++it) { //search for items in player's inventory  
-        std::cout << it->get_name() << it->get_weight() << " lbs\n"; //print name and weight
+        std::cout << *it << std::endl;
     }
 }
 

@@ -91,24 +91,3 @@ bool Location::get_visited() const{
     return this->visited;
 
 }
-
-/* // Debug code
-int main(int argc, char** argv){
-    Location House("A House", "A standard midwestern house with a MAGA sign out front =(");
-    Location Store("Harrys", "A very small party store facing away from the road.\nThere is 2 year old expired sour cream inside");
-    House.add_location("West", &Store);
-    Store.add_location("East", &House);
-    House.set_visited();
-
-    Item SourCream("Sour Cream", "Expired Sour Cream", 40, 4.0f);
-
-    Store.add_item(SourCream);
-
-    NPC Bob("Bob", "This is Bob");
-
-    House.add_npc(Bob);
-
-    std::cout << House << Store;
-
-    return 0;
-}   */
