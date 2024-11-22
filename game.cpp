@@ -365,16 +365,16 @@ void Game::teleport(std::vector<std::string> target) {
     std::string direction = target[0];
 
     // Check if the location exists in the locations vector
-    if (can_teleport){
-        auto it = std::find(locations.begin(), locations.end(), direction); // finds the location in the vector of locations.
-        if (it != locations.end()) {
-            current_location = *it; // Update the current location   
-            std::cout << "You are now in" << current_location;
-            can_teleport = false;
+    if (can_teleport){ 
+        for(auto it = locations.begin(); it != locations.end(); ++it) { // finds the location in the vector of locations.
+            if(it->get().get_name() == direction) {
+                can_teleport = false;
+                current_location = it->get();
+                std::cout << "You are now in " << current_location.get_name();
+                return;
+            }
         }
-        else {
-            std::cout << "There is no" << direction << "here.\n";
-        }
+        std::cout << "There is no" << direction << "here.\n";
     }
     else {
         std::cout << "You cannot teleport anymore!" << std::endl;
