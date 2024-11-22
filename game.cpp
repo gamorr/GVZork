@@ -404,3 +404,7 @@ void Game::dance(std::vector<std::string> target) {
         std::cout << "The people in the area approve." << std::endl;
     }
 }
+
+int main(int argc, char** argv) {
+    Game game;
+}
