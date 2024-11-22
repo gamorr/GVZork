@@ -324,9 +324,8 @@ void Game::go(std::vector<std::string> target) {
     // Mark the current location as visited
     current_location.set_visited(); // Set the current location's visited status to true
     // Check if the direction exists in the neighbors map
-    auto it = current_location.get_locations().find(direction); // returns the map of neighbors. Checks if the provided direction exists
-    if (it != current_location.get_locations().end()) {
-        current_location = *(it->second); // Update the current location
+    if (current_location.get_locations()[direction] != nullptr) {
+        current_location = *(current_location.get_locations()[direction]); // Update the current location
          // std::cout << "You move " << direction << " to " << current_location.get_name() << ".\n"; // provide a get_name function so that we can access the location's name
     } else {
         std::cout << "You can't go " << direction << " from here.\n";
