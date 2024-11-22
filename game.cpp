@@ -33,7 +33,7 @@ Game::Game() {
 // Play the game, automatically sets up commands upon playing and prints an introduction
 // Then waits for user input 
 void Game::play(){
-    std::map<std::string, std::function<void (std::vector<std::string>)> > commands = setup_commands();
+    commands = setup_commands();
     // Introduction 
     std::cout << "Hello Traveler, and welcome to the enchanting world of Grand Valley State University!\nQuite an exciting and charming place.\nHowever, theres this elf in the ravines that needs some food and if he does not get it he will destroy the place. \nCan you help us out?" << std::endl;
     std::cout << "You are currently in " << current_location;
@@ -65,13 +65,19 @@ void Game::play(){
 
 // Create the game world including all the items, locations, npcs and places them in the world
 void Game::create_world() {
-    // Create Items  // DEVNOTE - we need 5 more items, probably more that don't have a calorie count
+    // Create Items  // DEVNOTE - I think that adding these to the items vector will give the player all items at the start
+                     // We need to make this not happen and also link items to locations randomly
     items.push_back(Item("Banana", "Lots of potassium", 40, 3.5f));
     items.push_back(Item("Apple", "A fresh, juicy apple.", 20, 3.5f));
     items.push_back(Item("Cookie", "Very chocolate", 100, 3.5f));
     items.push_back(Item("Pumpkin", "I guess the elf would be fine with it?", 30, 15.5f));
     items.push_back(Item("Orb of True Knowledge", "Contains the answer to life, the universe, and everything.", 42, 7.8f));
     items.push_back(Item("Peanut", "Contains the answer to life, the universe, and everything", 0, 2.0f));
+    /*items.push_back(Item()); // Need to add data for these items
+    items.push_back(Item());
+    items.push_back(Item());
+    items.push_back(Item());
+    items.push_back(Item());*/
 
     // Create NPCs
     NPC elf("Elf", "A mystical elf that is really hungry");
@@ -164,6 +170,8 @@ std::map<std::string, std::function<void(std::vector<std::string>)>> Game::setup
     command_map["items"] = [this](std::vector<std::string> args) { show_items(args); };
     command_map["look"] = [this](std::vector<std::string> args) { look(args); };
     command_map["quit"] = [this](std::vector<std::string> args) { quit(args); };
+    command_map["teleport"] = [this](std::vector<std::string> args) { teleport(args); };
+    command_map["dance"] = [this](std::vector<std::string> args) { dance(args); };
 
     return command_map;
 }
@@ -356,7 +364,8 @@ void Game::quit(std::vector<std::string> target) {
     std::exit(0);
 }
 
-// Teleports the player to the specified
+// Teleports the player to the specified location if it exists
+// Only works once
 void Game::teleport(std::vector<std::string> target) {
     if (target.empty()) {
         std::cout << "You need to specify a direction to go.\n";

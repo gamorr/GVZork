@@ -161,7 +161,7 @@ class Game {
 
     private:
         Location current_location;
-        std::map<std::string, std::function<void(*)(std::vector<std::string>)> > commands;
+        std::map<std::string, std::function<void(std::vector<std::string>)> > commands;
         std::vector<Item> items;
         std::vector<std::reference_wrapper<Location> > locations;
         bool can_teleport;
