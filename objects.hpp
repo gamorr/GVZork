@@ -122,6 +122,7 @@ class Location {
                 }
                 os << std::endl;
             }
+            os << std::endl;
             return os;
         }
 
