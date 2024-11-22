@@ -21,10 +21,12 @@ Location::Location(const std::string& name, const std::string& description) {
 }
 
 // Default Constructor
-Location::Location()
-    : name("Unnamed"), description("No description"), visited(false) {
-    // Initializes default values for a Location
+Location::Location(){
+    this->name = "Unnamed";
+    this->description = "None";
+    this->visited = false;
 }
+
 
 
 // Setters

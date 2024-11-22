@@ -100,7 +100,7 @@ class Location {
             } else {
                 os << "You see the following NPCs:" << std::endl;
                 for(auto it = other.npcs.begin(); it != other.npcs.end(); ++it) {
-                    os << "\t- " << *it << std::endl;
+                    os << "\t- " << it->get() << std::endl;
                 }
                 os << std::endl;
             }
@@ -110,7 +110,7 @@ class Location {
             } else {
                 os << "You see the following Items:" << std::endl;
                 for(auto it = other.items.begin(); it!=other.items.end(); ++it) {
-                    os << "\t- " << *it;
+                    os << "\t- " << it->get();
                 }
                 os << std::endl;
             }
@@ -146,7 +146,7 @@ class Game {
         // Backend functions
         void create_world();
         std::map<std::string, std::function<void(std::vector<std::string>)> > setup_commands(); // map of command, function name        
-        Location& random_location();
+        Location random_location();
         void play();
 
         // Player commands
