@@ -38,30 +38,41 @@ void Game::play(){
     // Introduction 
     std::cout << "Hello Traveler, and welcome to the enchanting world of Grand Valley State University!"
     "\nQuite an exciting and charming place.\nHowever, theres this elf in the ravines that needs some "
-    "food.\nIf he does not get it he will destroy the place. \nCan you help us out?" << std::endl;
+    "food.\nIf he does not get it he will destroy the place. \nCan you help us out?\n" << std::endl;
     std::cout << "You are currently in " << current_location;
     while(needed_calories > current_calories){
-        std::cout << "You currently have " << current_calories << "calories out of " << needed_calories << "." << std::endl << std::endl;
+        std::cout << std::endl << "You currently have " << current_calories << " calories out of " << needed_calories << "." << std::endl << std::endl;
 
         std::cout << "What would you like to do? (Type help for a list of commands)\n" << std::endl;
 
         std::string user_response;
-        std::cin >> user_response;
+        std::getline(std::cin, user_response);
+        std::cout << std::endl;
         std::vector<std::string> tokens;
-        std::string delimiter = " ";
-        size_t pos = user_response.find(delimiter);
+        char delimiter = ' ';
+        size_t pos = 0;
         std::string token;
-        // splits the words in user_respose into individual tokens, which are inserted into the vector 'tokens'
-        while (pos != std::string::npos) {
-            token = user_response.substr(0, pos);
-            tokens.push_back(token);
-            user_response.erase(0, pos + delimiter.length());
-        }
+        auto it = find(user_response.begin(), user_response.end(), delimiter);
 
-        std::string command = tokens[0];
+        // Splits the user response into tokens
+        while(it != user_response.end()) {
+            token = user_response.substr(0, it - user_response.begin() - 1);
+            tokens.push_back(token);
+            user_response.erase(0, it - user_response.begin());
+
+            it = find(user_response.begin(), user_response.end(), delimiter);
+        }
+        tokens.push_back(user_response);
+
         //removes the command from the vector of tokens
+        std::string command = tokens[0];
         tokens.erase(tokens.begin());
-        commands[command](tokens);
+
+        if(commands.count(command) == 1) {
+            commands[command](tokens);
+        } else {
+            std::cout << "Input a command. Type 'help' for list of commands." << std::endl;
+        }
     
     }
 }
@@ -223,7 +234,7 @@ void Game::show_help() {
     std::cout << "  meet <NPC> - Get a brief description of an NPC.\n";
     std::cout << "  take <item> - Take an item from the current location.\n";
     std::cout << "  give <item> - Give an item to the NPC in need.\n";
-    std::cout << "  go <location> - Travel to a neighboring location.\n";
+    std::cout << "  go <direction> - Travel to a neighboring location.\n";
     std::cout << "  items - Show items in your inventory.\n";
     std::cout << "  look - Get information on your current location.\n";
     std::cout << "  quit - Exit the game.\n";

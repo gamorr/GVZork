@@ -39,7 +39,7 @@ void Location::add_location(const std::string& direction, Location* location) {
     } else if (this->neighbors.count(direction) == 1) { // Throws error if direction key already exists
         throw std::runtime_error("Key already exists");
     } else {
-        this->neighbors.insert(make_pair(direction,location));
+        this->neighbors[direction] = location;
     }
 }
 
