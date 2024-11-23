@@ -38,25 +38,35 @@ void Game::play(){
     // Introduction 
     std::cout << "Hello Traveler, and welcome to the enchanting world of Grand Valley State University!"
     "\nQuite an exciting and charming place.\nHowever, theres this elf in the ravines that needs some "
-    "food.\nIf he does not get it he will destroy the place. \nCan you help us out?" << std::endl;
+    "food.\nIf he does not get it he will destroy the place. \nCan you help us out?\n" << std::endl;
     std::cout << "You are currently in " << current_location;
     while(needed_calories > current_calories){
-        std::cout << "You currently have " << current_calories << "calories out of " << needed_calories << "." << std::endl << std::endl;
+        std::cout << "You currently have " << current_calories << " calories out of " << needed_calories << "." << std::endl << std::endl;
 
         std::cout << "What would you like to do? (Type help for a list of commands)\n" << std::endl;
 
         std::string user_response;
         std::cin >> user_response;
         std::vector<std::string> tokens;
-        std::string delimiter = " ";
+        char delimiter = ' ';
         size_t pos = user_response.find(delimiter);
         std::string token;
+
+        for(auto it = user_response.begin(); it != user_response.end(); ++it) {
+            if(*it == delimiter) {
+                token = user_response.substr(0, it - user_response.begin());
+                tokens.push_back(token);
+                user_response.erase(0,it-user_response.begin()+1);
+            }
+        }
+
         // splits the words in user_respose into individual tokens, which are inserted into the vector 'tokens'
-        while (pos != std::string::npos) {
+        /*while (pos != user_response.length()) {
             token = user_response.substr(0, pos);
             tokens.push_back(token);
-            user_response.erase(0, pos + delimiter.length());
-        }
+            user_response.erase(0, pos + 1);
+            pos = user_response.find(delimiter);
+        }*/
 
         std::string command = tokens[0];
         //removes the command from the vector of tokens
