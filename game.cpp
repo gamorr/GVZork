@@ -36,7 +36,9 @@ Game::Game() {
 void Game::play(){
     commands = setup_commands();
     // Introduction 
-    std::cout << "Hello Traveler, and welcome to the enchanting world of Grand Valley State University!\nQuite an exciting and charming place.\nHowever, theres this elf in the ravines that needs some food and if he does not get it he will destroy the place. \nCan you help us out?" << std::endl;
+    std::cout << "Hello Traveler, and welcome to the enchanting world of Grand Valley State University!"
+    "\nQuite an exciting and charming place.\nHowever, theres this elf in the ravines that needs some "
+    "food.\nIf he does not get it he will destroy the place. \nCan you help us out?" << std::endl;
     std::cout << "You are currently in " << current_location;
     while(needed_calories > current_calories){
         std::cout << "You currently have " << current_calories << "calories out of " << needed_calories << "." << std::endl << std::endl;
@@ -70,59 +72,82 @@ void Game::create_world() {
     Item Banana("Banana", "Lots of potassium", 40, 3.5f);
     Item Apple("Apple", "A fresh, juicy apple.", 20, 3.5f);
     Item Cookie("Cookie", "Very chocolate", 100, 3.5f);
-    Item Pumpkin("Pumpkin", "I guess the elf would be fine with it?", 30, 15.5f);
-    Item Knowledge("Orb of True Knowledge", "Contains the answer to life, the universe, and everything.", 42, 7.8f);
-    Item Peanut("Peanut", "Contains the answer to life, the universe, and everything", 0, 2.0f);
+    Item Pumpkin("Pumpkin", "I guess the elf would be fine with it?", 
+        30, 15.5f);
+    Item Knowledge("Orb of True Knowledge", "Contains the answer to li"
+        "fe, the universe, and everything.", 42, 7.8f);
+    Item Peanut("Peanut", "Contains the answer to life, the universe, "
+        "and everything", 0, 2.0f);
     Item Pencil("Pencil", "Your standard number 2 pencil", 0, 1.0f);
     Item Weights("Weights", "Looking to get your swole on?", 0, 30.0f);
-    Item Meat("Meat", "Mystery Meat!  Who knows where it came from?", 60, 14.5f);
+    Item Meat("Meat", "Mystery Meat!  Who knows where it came from?", 
+        60, 14.5f);
     Item Laptop("Laptop", "An intel laptop.", 0, 10.0f);
 
     // Create NPCs 
     NPC elf("Elf", "A mystical elf that is really hungry");
-    elf.add_message("Hello, traveler! Fancy running into you here.. do you have anything to eat, by chance? Im starving.");
-    elf.add_message("Can you fetch me some food! Bad things will happen if you don't.");
+    elf.add_message("Hello, traveler! Fancy running into you here.. do"
+        " you have anything to eat, by chance? Im starving.");
+    elf.add_message("Can you fetch me some food! Bad things will happe"
+        "n if you don't.");
 
     NPC joel("Joel", "An elderly man who knows many things");
-    joel.add_message("I like this place. I'm not sure if there's much to eat here, I suppose you can have that pumpkin over there.");
-    joel.add_message("I'm a pumpkin farmer, you see. I used to be a professor but I got kind of tired of that. No, I will not share wisdom with you.");
+    joel.add_message("I like this place. I'm not sure if there's much "
+        "to eat here, I suppose you can have that pumpkin there.");
+    joel.add_message("I'm a pumpkin farmer, you see. I used to be a pr"
+        "ofessor but I got kind of tired of that. No, I will not share"
+        " wisdom with you.");
 
-    NPC samantha("Samantha", "A knowledgeable woman who is eager to help");
-    samantha.add_message("Hi! Do you need help getting around? Try typing 'help'!");
-    samantha.add_message("I don't eat, actually, so I never keep food around here.");
+    NPC samantha("Samantha", "A knowledgeable woman who is eager to he"
+        "lp");
+    samantha.add_message("Hi! Do you need help getting around? Try typ"
+        "ing 'help'!");
+    samantha.add_message("I don't eat, actually, so I never keep food "
+        "around here.");
 
     NPC felix("Felix", "He's busy doing linear algebra homework.");
     felix.add_message("...");
     felix.add_message("What? You need something?");
-    felix.add_message("Unless you know how to find the eigenvectors of a matrix, I'm not interested in talking to you.");
-    felix.add_message("I don't have any food, if that's what you want. I guess there's this peanut on the ground, you can have that.");
+    felix.add_message("Unless you know how to find the eigenvectors of"
+        " a matrix, I'm not interested in talking to you.");
+    felix.add_message("I don't have any food, if that's what you want."
+        " I guess there's a peanut on the ground, you can have that.");
 
     NPC walker("Walker", "He really likes to sing, and loudly too.");
-    walker.add_message("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-    walker.add_message("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-    walker.add_message("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"); 
+    walker.add_message("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    walker.add_message("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+    walker.add_message("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"); 
 
+    
+    Location kirkhoff("Kirkhoff", "A bustling village with plenty of f"
+        "olks walking about");
+    Location zumberge("Zumberge", "An abandoned city with scarce resou"
+        "rces");
+    Location haas("Haas", "A pleasant little village with art and musi"
+        "c all around");
+    Location mackinac("Mackinac", "A city with many hardworking scient"
+        "ists and mathmeticians");
+    Location calder("Calder", "A distant village with odd, but friendl"
+        "y locals");
+    Location library("Library", "A cozy building with shelves full of "
+        "books");
+    Location padnos("Padnos", "A chemistry lab with many safety protoc"
+        "ols.");
+    Location ravines("Ravines", "A dense forest within a winding syste"
+        "m of ravines");
 
-    Location kirkhoff("Kirkhoff", "A bustling village with plenty of folks walking about");
-    Location zumberge("Zumberge", "An abandoned city with scarce resources");
-    Location haas("Haas", "A pleasant little village with art and music all around");
-    Location mackinac("Mackinac", "A city with many hardworking scientists and mathmeticians");
-    Location calder("Calder", "A distant village with odd, but friendly locals");
-    Location library("Library", "A cozy building with shelves full of books");
-    Location padnos("Padnos", "A chemistry lab with many safety protocols.");
-    Location ravines("Ravines", "A dense forest within a winding system of ravines");
-
-    this->locations.push_back(std::ref(kirkhoff));
-    this->locations.push_back(std::ref(zumberge));
-    this->locations.push_back(std::ref(haas));
-    this->locations.push_back(std::ref(mackinac));
-    this->locations.push_back(std::ref(calder));
-    this->locations.push_back(std::ref(library));
-    this->locations.push_back(std::ref(padnos));
-    this->locations.push_back(std::ref(ravines));
+    
+    this->locations.push_back(kirkhoff);
+    this->locations.push_back(zumberge);
+    this->locations.push_back(haas);
+    this->locations.push_back(mackinac);
+    this->locations.push_back(calder);
+    this->locations.push_back(library);
+    this->locations.push_back(padnos);
+    this->locations.push_back(ravines);
 
     // Add NPCs and Items to Locations
-    ravines.add_npc(elf);
+    this->locations[7].add_npc(elf);
     this->random_location().add_npc(joel);
     this->random_location().add_npc(samantha);
     this->random_location().add_npc(felix);
@@ -138,26 +163,26 @@ void Game::create_world() {
     this->random_location().add_item(Pencil);
     this->random_location().add_item(Laptop);
     this->random_location().add_item(Meat);
-
+    
     // Link Locations
-    ravines.add_location("north", &mackinac);
-    ravines.add_location("south", &calder);
-    ravines.add_location("west", &zumberge);
-    zumberge.add_location("west", &kirkhoff);
-    zumberge.add_location("north", &padnos);
-    zumberge.add_location("south", &haas);
-    zumberge.add_location("east", &ravines);
-    kirkhoff.add_location("east", &zumberge);
-    kirkhoff.add_location("west", &library);
-    library.add_location("east", &kirkhoff);
-    padnos.add_location("south", &zumberge);
-    padnos.add_location("east", &mackinac);
-    haas.add_location("north", &zumberge);
-    haas.add_location("east", &calder);
-    calder.add_location("north", &ravines);
-    calder.add_location("west", &haas);
-    mackinac.add_location("south", &ravines);
-    mackinac.add_location("west", &padnos);
+    this->locations[7].add_location("north", &(locations[3]));
+    this->locations[7].add_location("south", &(locations[4]));
+    this->locations[7].add_location("west", &(locations[1]));
+    this->locations[1].add_location("west", &(locations[0]));
+    this->locations[1].add_location("north", &(locations[6]));
+    this->locations[1].add_location("south", &(locations[2]));
+    this->locations[1].add_location("east", &(locations[7]));
+    this->locations[0].add_location("east", &(locations[1]));
+    this->locations[0].add_location("west", &(locations[5]));
+    this->locations[5].add_location("east", &(locations[0]));
+    this->locations[6].add_location("south", &(locations[1]));
+    this->locations[6].add_location("east", &(locations[3]));
+    this->locations[2].add_location("north", &(locations[1]));
+    this->locations[2].add_location("east", &(locations[4]));
+    this->locations[4].add_location("north", &(locations[7]));
+    this->locations[4].add_location("west", &(locations[2]));
+    this->locations[3].add_location("south", &(locations[7]));
+    this->locations[3].add_location("west", &(locations[6]));
 }
 
 // Sets up all commands
@@ -186,8 +211,10 @@ Location Game::random_location() {
 
     // return random location
     int randomIndex = dist(gen);
-    return (this->locations[randomIndex]).get();
+    return (this->locations[randomIndex]);
 }
+
+// User Commands
 
 // Displays all commands, how to use them and what they do
 void Game::show_help() {
@@ -383,9 +410,9 @@ void Game::teleport(std::vector<std::string> target) {
     // Check if the location exists in the locations vector
     if (can_teleport){ 
         for(auto it = locations.begin(); it != locations.end(); ++it) { // finds the location in the vector of locations.
-            if(it->get().get_name() == loc) {
+            if(it->get_name() == loc) {
                 can_teleport = false;
-                current_location = it->get();
+                current_location = *it;
                 std::cout << "You are now in " << current_location.get_name();
                 return;
             }

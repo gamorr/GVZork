@@ -166,7 +166,7 @@ class Game {
         Location current_location;
         std::map<std::string, std::function<void(std::vector<std::string>)> > commands;
         std::vector<Item> items;
-        std::vector<std::reference_wrapper<Location>> locations;
+        std::vector<Location> locations;
         bool can_teleport;
         int current_calories;
         int needed_calories;
