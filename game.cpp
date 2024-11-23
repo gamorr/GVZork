@@ -49,10 +49,10 @@ void Game::play(){
         std::cin >> user_response;
         std::vector<std::string> tokens;
         std::string delimiter = " ";
-        size_t pos = 0;
+        size_t pos = user_response.find(delimiter);
         std::string token;
         // splits the words in user_respose into individual tokens, which are inserted into the vector 'tokens'
-        while ((pos = user_response.find(delimiter)) != std::string::npos) {
+        while (pos != std::string::npos) {
             token = user_response.substr(0, pos);
             tokens.push_back(token);
             user_response.erase(0, pos + delimiter.length());
