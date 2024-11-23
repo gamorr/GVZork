@@ -66,21 +66,19 @@ void Game::play(){
 
 // Create the game world including all the items, locations, npcs and places them in the world
 void Game::create_world() {
-    // Create Items  // DEVNOTE - I think that adding these to the items vector will give the player all items at the start
-                     // We need to make this not happen and also link items to locations randomly
-    items.push_back(Item("Banana", "Lots of potassium", 40, 3.5f));
-    items.push_back(Item("Apple", "A fresh, juicy apple.", 20, 3.5f));
-    items.push_back(Item("Cookie", "Very chocolate", 100, 3.5f));
-    items.push_back(Item("Pumpkin", "I guess the elf would be fine with it?", 30, 15.5f));
-    items.push_back(Item("Orb of True Knowledge", "Contains the answer to life, the universe, and everything.", 42, 7.8f));
-    items.push_back(Item("Peanut", "Contains the answer to life, the universe, and everything", 0, 2.0f));
-    /*items.push_back(Item()); // Need to add data for these items
-    items.push_back(Item());
-    items.push_back(Item());
-    items.push_back(Item());
-    items.push_back(Item());*/
+    // Create Items
+    Item Banana("Banana", "Lots of potassium", 40, 3.5f);
+    Item Apple("Apple", "A fresh, juicy apple.", 20, 3.5f);
+    Item Cookie("Cookie", "Very chocolate", 100, 3.5f);
+    Item Pumpkin("Pumpkin", "I guess the elf would be fine with it?", 30, 15.5f);
+    Item Knowledge("Orb of True Knowledge", "Contains the answer to life, the universe, and everything.", 42, 7.8f);
+    Item Peanut("Peanut", "Contains the answer to life, the universe, and everything", 0, 2.0f);
+    Item Pencil("Pencil", "Your standard number 2 pencil", 0, 1.0f);
+    Item Weights("Weights", "Looking to get your swole on?", 0, 30.0f);
+    Item Meat("Meat", "Mystery Meat!  Who knows where it came from?", 60, 14.5f);
+    Item Laptop("Laptop", "An intel laptop.", 0, 10.0f);
 
-    // Create NPCs
+    // Create NPCs 
     NPC elf("Elf", "A mystical elf that is really hungry");
     elf.add_message("Hello, traveler! Fancy running into you here.. do you have anything to eat, by chance? Im starving.");
     elf.add_message("Can you fetch me some food! Bad things will happen if you don't.");
@@ -102,7 +100,7 @@ void Game::create_world() {
     NPC walker("Walker", "He really likes to sing, and loudly too.");
     walker.add_message("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     walker.add_message("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-    walker.add_message("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+    walker.add_message("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"); 
 
 
     Location kirkhoff("Kirkhoff", "A bustling village with plenty of folks walking about");
@@ -124,19 +122,22 @@ void Game::create_world() {
     this->locations.push_back(std::ref(ravines));
 
     // Add NPCs and Items to Locations
-    // DEVNOTE - probably should randomly assign things to locations using the random_location function other than the elf
     ravines.add_npc(elf);
-    this->random_location().add_npc(std::ref(joel));
-    this->random_location().add_npc(std::ref(samantha));
-    this->random_location().add_npc(std::ref(felix));
-    this->random_location().add_npc(std::ref(walker));
+    this->random_location().add_npc(joel);
+    this->random_location().add_npc(samantha);
+    this->random_location().add_npc(felix);
+    this->random_location().add_npc(walker);
 
-    this->random_location().add_item(std::ref(items[4]));
-    this->random_location().add_item(std::ref(items[1]));
-    this->random_location().add_item(std::ref(items[2]));
-    this->random_location().add_item(std::ref(items[3]));
-    this->random_location().add_item(std::ref(items[5]));
-    this->random_location().add_item(std::ref(items[0]));
+    this->random_location().add_item(Apple);
+    this->random_location().add_item(Banana);
+    this->random_location().add_item(Pumpkin);
+    this->random_location().add_item(Knowledge);
+    this->random_location().add_item(Peanut);
+    this->random_location().add_item(Cookie);
+    this->random_location().add_item(Weights);
+    this->random_location().add_item(Pencil);
+    this->random_location().add_item(Laptop);
+    this->random_location().add_item(Meat);
 
     // Link Locations
     ravines.add_location("north", &mackinac);
@@ -185,7 +186,7 @@ Location Game::random_location() {
 
     // return random location
     int randomIndex = dist(gen);
-    return this->locations[randomIndex].get();
+    return (this->locations[randomIndex]).get();
 }
 
 // Displays all commands, how to use them and what they do
